@@ -186,7 +186,8 @@ RCT_EXPORT_MODULE()
              @"timezone": self.timezone,
              @"isEmulator": @(self.isEmulator),
              @"isTablet": @(self.isTablet),
-             };
+             @"24HourTime" : [[[NSDateFormatter dateFormatFromTemplate:@"j" options:0 locale:[NSLocale currentLocale]] rangeOfString:@"a"] location] != NSNotFound ? @TRUE : @FALSE
+                 };
 }
 
 @end
