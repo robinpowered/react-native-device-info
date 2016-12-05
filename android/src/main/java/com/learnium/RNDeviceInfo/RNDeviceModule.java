@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.provider.Settings.Secure;
+import android.text.format.DateFormat;
 
 import com.google.android.gms.iid.InstanceID;
 
@@ -113,6 +114,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("timezone", TimeZone.getDefault().getID());
     constants.put("isEmulator", this.isEmulator());
     constants.put("isTablet", this.isTablet());
+    constants.put("24HourTime", DateFormat.is24HourFormat(this.reactContext));
     return constants;
   }
 }
