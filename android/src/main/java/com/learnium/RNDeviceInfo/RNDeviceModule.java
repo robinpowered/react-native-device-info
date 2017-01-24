@@ -69,6 +69,11 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     return layout == Configuration.SCREENLAYOUT_SIZE_LARGE || layout == Configuration.SCREENLAYOUT_SIZE_XLARGE;
   }
 
+  @ReactMethod
+  public void getDeviceInfo(@NonNull final Promise promise) {
+    promise.resolve(this.getConstants().get("DeviceInfo"));
+  }
+
   @Override
   public @Nullable Map<String, Object> getConstants() {
     HashMap<String, Object> constants = new HashMap<String, Object>();
@@ -113,6 +118,9 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("timezone", TimeZone.getDefault().getID());
     constants.put("isEmulator", this.isEmulator());
     constants.put("isTablet", this.isTablet());
-    return constants;
+
+    Hashmap<String, Object> constantsWrapper = new HashMap<String, Object>();
+    constantsWrapper.put("DeviceInfo", constants);
+    return constantsWrapper;
   }
 }
