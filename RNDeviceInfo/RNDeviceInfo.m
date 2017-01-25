@@ -13,6 +13,8 @@
 
 @end
 
+static NSString *KEY_DEVICE_INFO = @"DeviceInfo";
+
 @implementation RNDeviceInfo
 {
 
@@ -176,7 +178,7 @@ RCT_EXPORT_MODULE()
 
 RCT_REMAP_METHOD(getDeviceInfo, resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
-    resolve([self constantsToExport][@"DeviceInfo"]);
+    resolve([self constantsToExport][KEY_DEVICE_INFO]);
 }
 
 - (NSDictionary *)constantsToExport
@@ -186,7 +188,7 @@ RCT_REMAP_METHOD(getDeviceInfo, resolver:(RCTPromiseResolveBlock)resolve rejecte
     NSString *uniqueId = [DeviceUID uid];
 
     return @{
-             @"DeviceInfo": @{
+             KEY_DEVICE_INFO: @{
                  @"systemName": currentDevice.systemName,
                  @"systemVersion": currentDevice.systemVersion,
                  @"model": self.deviceName,

@@ -21,6 +21,8 @@ import javax.annotation.Nullable;
 
 public class RNDeviceModule extends ReactContextBaseJavaModule {
 
+  private static final String KEY_DEVICE_INFO = "DeviceInfo";
+
   ReactApplicationContext reactContext;
 
   public RNDeviceModule(ReactApplicationContext reactContext) {
@@ -71,7 +73,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void getDeviceInfo(@NonNull final Promise promise) {
-    promise.resolve(this.getConstants().get("DeviceInfo"));
+    promise.resolve(this.getConstants().get(KEY_DEVICE_INFO));
   }
 
   @Override
@@ -120,7 +122,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("isTablet", this.isTablet());
 
     Hashmap<String, Object> constantsWrapper = new HashMap<String, Object>();
-    constantsWrapper.put("DeviceInfo", constants);
+    constantsWrapper.put(KEY_DEVICE_INFO, constants);
     return constantsWrapper;
   }
 }
