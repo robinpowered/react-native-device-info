@@ -13,6 +13,8 @@
 
 @end
 
+static NSString *KEY_DEVICE_INFO = @"DeviceInfo";
+
 @implementation RNDeviceInfo
 {
 
@@ -162,6 +164,23 @@ RCT_EXPORT_MODULE()
   return [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
 }
 
+- (bool) is24HourTime
+{
+    NSString *dateFormatter = [NSDateFormatter dateFormatFromTemplate:@"j" options:0 locale:[NSLocale currentLocale]];
+    
+    if (!dateFormatter) {
+        return NO;
+    }
+    
+    NSRange range = [dateFormatter rangeOfString:@"a"];
+    return range.location == NSNotFound;
+}
+
+RCT_REMAP_METHOD(getDeviceInfo, resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    resolve([self constantsToExport][KEY_DEVICE_INFO]);
+}
+
 - (NSDictionary *)constantsToExport
 {
     UIDevice *currentDevice = [UIDevice currentDevice];
@@ -169,25 +188,27 @@ RCT_EXPORT_MODULE()
     NSString *uniqueId = [DeviceUID uid];
 
     return @{
-             @"systemName": currentDevice.systemName,
-             @"systemVersion": currentDevice.systemVersion,
-             @"model": self.deviceName,
-             @"brand": @"Apple",
-             @"deviceId": self.deviceId,
-             @"deviceName": currentDevice.name,
-             @"deviceLocale": self.deviceLocale,
-             @"deviceCountry": self.deviceCountry ?: [NSNull null],
-             @"uniqueId": uniqueId,
-             @"bundleId": [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"],
-             @"appVersion": [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
-             @"buildNumber": [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
-             @"systemManufacturer": @"Apple",
-             @"userAgent": self.userAgent,
-             @"timezone": self.timezone,
-             @"isEmulator": @(self.isEmulator),
-             @"isTablet": @(self.isTablet),
-             @"24HourTime" : [[[NSDateFormatter dateFormatFromTemplate:@"j" options:0 locale:[NSLocale currentLocale]] rangeOfString:@"a"] location] == NSNotFound ? @TRUE : @FALSE
-                 };
+             KEY_DEVICE_INFO: @{
+                 @"systemName": currentDevice.systemName,
+                 @"systemVersion": currentDevice.systemVersion,
+                 @"model": self.deviceName,
+                 @"brand": @"Apple",
+                 @"deviceId": self.deviceId,
+                 @"deviceName": currentDevice.name ?: [NSNull null],
+                 @"deviceLocale": self.deviceLocale,
+                 @"deviceCountry": self.deviceCountry ?: [NSNull null],
+                 @"uniqueId": uniqueId,
+                 @"bundleId": [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"],
+                 @"appVersion": [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
+                 @"buildNumber": [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
+                 @"systemManufacturer": @"Apple",
+                 @"userAgent": self.userAgent,
+                 @"timezone": self.timezone,
+                 @"isEmulator": @(self.isEmulator),
+                 @"isTablet": @(self.isTablet),
+                 @"24HourTime" : @([self is24HourTime])
+                 }
+             };
 }
 
 @end

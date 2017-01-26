@@ -21,6 +21,8 @@ import javax.annotation.Nullable;
 
 public class RNDeviceModule extends ReactContextBaseJavaModule {
 
+  private static final String KEY_DEVICE_INFO = "DeviceInfo";
+
   ReactApplicationContext reactContext;
 
   public RNDeviceModule(ReactApplicationContext reactContext) {
@@ -69,6 +71,11 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     return layout == Configuration.SCREENLAYOUT_SIZE_LARGE || layout == Configuration.SCREENLAYOUT_SIZE_XLARGE;
   }
 
+  @ReactMethod
+  public void getDeviceInfo(@NonNull final Promise promise) {
+    promise.resolve(this.getConstants().get(KEY_DEVICE_INFO));
+  }
+
   @Override
   public @Nullable Map<String, Object> getConstants() {
     HashMap<String, Object> constants = new HashMap<String, Object>();
@@ -113,6 +120,9 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("timezone", TimeZone.getDefault().getID());
     constants.put("isEmulator", this.isEmulator());
     constants.put("isTablet", this.isTablet());
-    return constants;
+
+    Hashmap<String, Object> constantsWrapper = new HashMap<String, Object>();
+    constantsWrapper.put(KEY_DEVICE_INFO, constants);
+    return constantsWrapper;
   }
 }
