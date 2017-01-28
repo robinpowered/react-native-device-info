@@ -85,7 +85,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     String packageName = this.reactContext.getPackageName();
 
     constants.putString("appVersion", "not available");
-    constants.putString("buildVersion", "not availalble");
+    constants.putString("buildVersion", "not available");
     constants.putInt("buildNumber", 0);
 
     try {
@@ -93,7 +93,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
       constants.putString("appVersion", info.versionName);
       constants.putInt("buildNumber", info.versionCode);
     } catch (PackageManager.NameNotFoundException e) {
-      e.printStackTrace();;
+      e.printStackTrace();
     }
 
     String deviceName = "Unknown";
