@@ -6,11 +6,13 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.provider.Settings.Secure;
+import android.support.annotation.NonNull;
 
-import com.google.android.gms.iid.InstanceID;
-
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableNativeMap;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -73,24 +75,23 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void getDeviceInfo(@NonNull final Promise promise) {
-    promise.resolve(this.getConstants().get(KEY_DEVICE_INFO));
+    promise.resolve(this.getWritableConstantsMap());
   }
 
-  @Override
-  public @Nullable Map<String, Object> getConstants() {
-    HashMap<String, Object> constants = new HashMap<String, Object>();
+  public @Nullable WritableNativeMap getWritableConstantsMap() {
+    WritableNativeMap constants = new WritableNativeMap();
 
     PackageManager packageManager = this.reactContext.getPackageManager();
     String packageName = this.reactContext.getPackageName();
 
-    constants.put("appVersion", "not available");
-    constants.put("buildVersion", "not available");
-    constants.put("buildNumber", 0);
+    constants.putString("appVersion", "not available");
+    constants.putString("buildVersion", "not available");
+    constants.putInt("buildNumber", 0);
 
     try {
       PackageInfo info = packageManager.getPackageInfo(packageName, 0);
-      constants.put("appVersion", info.versionName);
-      constants.put("buildNumber", info.versionCode);
+      constants.putString("appVersion", info.versionName);
+      constants.putInt("buildNumber", info.versionCode);
     } catch (PackageManager.NameNotFoundException e) {
       e.printStackTrace();
     }
@@ -104,25 +105,28 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
       e.printStackTrace();
     }
 
-    constants.put("instanceId", InstanceID.getInstance(this.reactContext).getId());
-    constants.put("deviceName", deviceName);
-    constants.put("systemName", "Android");
-    constants.put("systemVersion", Build.VERSION.RELEASE);
-    constants.put("model", Build.MODEL);
-    constants.put("brand", Build.BRAND);
-    constants.put("deviceId", Build.BOARD);
-    constants.put("deviceLocale", this.getCurrentLanguage());
-    constants.put("deviceCountry", this.getCurrentCountry());
-    constants.put("uniqueId", Secure.getString(this.reactContext.getContentResolver(), Secure.ANDROID_ID));
-    constants.put("systemManufacturer", Build.MANUFACTURER);
-    constants.put("bundleId", packageName);
-    constants.put("userAgent", System.getProperty("http.agent"));
-    constants.put("timezone", TimeZone.getDefault().getID());
-    constants.put("isEmulator", this.isEmulator());
-    constants.put("isTablet", this.isTablet());
+    constants.putString("deviceName", deviceName);
+    constants.putString("systemName", "Android");
+    constants.putString("systemVersion", Build.VERSION.RELEASE);
+    constants.putString("model", Build.MODEL);
+    constants.putString("brand", Build.BRAND);
+    constants.putString("deviceId", Build.BOARD);
+    constants.putString("deviceLocale", this.getCurrentLanguage());
+    constants.putString("deviceCountry", this.getCurrentCountry());
+    constants.putString("uniqueId", Secure.getString(this.reactContext.getContentResolver(), Secure.ANDROID_ID));
+    constants.putString("systemManufacturer", Build.MANUFACTURER);
+    constants.putString("bundleId", packageName);
+    constants.putString("userAgent", System.getProperty("http.agent"));
+    constants.putString("timezone", TimeZone.getDefault().getID());
+    constants.putBoolean("isEmulator", this.isEmulator());
+    constants.putBoolean("isTablet", this.isTablet());
+    return constants;
+  }
 
-    Hashmap<String, Object> constantsWrapper = new HashMap<String, Object>();
-    constantsWrapper.put(KEY_DEVICE_INFO, constants);
+  @Override
+  public @Nullable Map<String, Object> getConstants() {
+    HashMap<String, Object> constantsWrapper = new HashMap<>();
+    constantsWrapper.put(KEY_DEVICE_INFO, this.getWritableConstantsMap().toHashMap());
     return constantsWrapper;
   }
 }
