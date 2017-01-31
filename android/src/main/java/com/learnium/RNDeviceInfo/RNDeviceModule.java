@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.provider.Settings.Secure;
 import android.support.annotation.NonNull;
+import android.text.format.DateFormat;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -120,6 +121,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.putString("timezone", TimeZone.getDefault().getID());
     constants.putBoolean("isEmulator", this.isEmulator());
     constants.putBoolean("isTablet", this.isTablet());
+    constants.putBoolean("24HourTime", DateFormat.is24HourFormat(this.reactContext));
     return constants;
   }
 
