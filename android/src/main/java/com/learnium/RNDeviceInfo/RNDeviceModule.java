@@ -121,7 +121,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.putString("timezone", TimeZone.getDefault().getID());
     constants.putBoolean("isEmulator", this.isEmulator());
     constants.putBoolean("isTablet", this.isTablet());
-    constants.putBoolean("24HourTime", DateFormat.is24HourFormat(this.reactContext));
+    constants.putBoolean("is24HourTime", DateFormat.is24HourFormat(this.reactContext));
     return constants;
   }
 

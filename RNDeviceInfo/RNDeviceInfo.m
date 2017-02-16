@@ -206,7 +206,7 @@ RCT_REMAP_METHOD(getDeviceInfo, resolver:(RCTPromiseResolveBlock)resolve rejecte
                  @"timezone": self.timezone,
                  @"isEmulator": @(self.isEmulator),
                  @"isTablet": @(self.isTablet),
-                 @"24HourTime" : @([self is24HourTime])
+                 @"is24HourTime" : @([self is24HourTime])
                  }
              };
 }
