@@ -3,63 +3,65 @@
  */
 
 var RNDeviceInfo = require('react-native').NativeModules.RNDeviceInfo;
-
+var DeviceInfo = RNDeviceInfo.DeviceInfo;
 module.exports = {
   getUniqueID: function () {
-    return RNDeviceInfo.uniqueId;
+    return DeviceInfo.uniqueId;
   },
   getInstanceID: function() {
-    return RNDeviceInfo.instanceId;
+    return DeviceInfo.instanceId;
   },
   getDeviceId: function () {
-    return RNDeviceInfo.deviceId;
+    return DeviceInfo.deviceId;
   },
   getManufacturer: function () {
-    return RNDeviceInfo.systemManufacturer;
+    return DeviceInfo.systemManufacturer;
   },
   getModel: function () {
-    return RNDeviceInfo.model;
+    return DeviceInfo.model;
   },
   getBrand: function () {
-    return RNDeviceInfo.brand;
+    return DeviceInfo.brand;
   },
   getSystemName: function () {
-    return RNDeviceInfo.systemName;
+    return DeviceInfo.systemName;
   },
   getSystemVersion: function () {
-    return RNDeviceInfo.systemVersion;
+    return DeviceInfo.systemVersion;
   },
   getBundleId: function() {
-    return RNDeviceInfo.bundleId;
+    return DeviceInfo.bundleId;
   },
   getBuildNumber: function() {
-    return RNDeviceInfo.buildNumber;
+    return DeviceInfo.buildNumber;
   },
   getVersion: function() {
-    return RNDeviceInfo.appVersion;
+    return DeviceInfo.appVersion;
   },
   getReadableVersion: function() {
-    return RNDeviceInfo.appVersion + "." + RNDeviceInfo.buildNumber;
+    return DeviceInfo.appVersion + "." + DeviceInfo.buildNumber;
   },
   getDeviceName: function() {
-    return RNDeviceInfo.deviceName;
+    return DeviceInfo.deviceName;
   },
   getUserAgent: function() {
-    return RNDeviceInfo.userAgent;
+    return DeviceInfo.userAgent;
   },
   getDeviceLocale: function() {
-    return RNDeviceInfo.deviceLocale;
+    return DeviceInfo.deviceLocale;
   },
   getDeviceCountry: function() {
-    return RNDeviceInfo.deviceCountry;
+    return DeviceInfo.deviceCountry;
   },
   getTimezone: function() {
-    return RNDeviceInfo.timezone;
+    return DeviceInfo.timezone;
   },
   isEmulator: function() {
-    return RNDeviceInfo.isEmulator;
+    return DeviceInfo.isEmulator;
   },
   isTablet: function() {
-    return RNDeviceInfo.isTablet;
+    return DeviceInfo.isTablet;
   },
 };
+
+module.exports.DeviceInfo = DeviceInfo;
